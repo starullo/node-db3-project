@@ -114,4 +114,17 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+router.post('/:id/steps', (req, res, next)=>{
+  const step = {...req.body}
+  step.scheme_id = req.params.id;
+  console.log(req.params.id)
+  Schemes.addStep(step, req.params.id)
+  .then(res=>{
+    res.status(201).json(res)
+  })
+  .catch(err=>{
+    res.status(500).json(err.message)
+  })
+})
+
 module.exports = router;
