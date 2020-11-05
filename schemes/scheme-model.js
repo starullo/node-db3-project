@@ -51,5 +51,17 @@ module.exports = {
             }
         })
         return promise
+    },
+    async addStep(step, id) {
+        console.log(step)
+        const steps = await db('steps').where({scheme_id: id});
+        const [newId] = await db('steps').insert({...step, scheme_id: id, step_number: steps.length + 1});
+        if (newId) {
+            console.log('good')
+            return db('steps').where({id: newId}).first()
+        } else {
+            console.log('bad')
+            return Promise.reject(null)
+        }
     }
 }
